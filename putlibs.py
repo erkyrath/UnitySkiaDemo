@@ -16,6 +16,7 @@ import sys
 import os
 import os.path
 import shutil
+import subprocess
 
 arglist = sys.argv[ 1 : ]
 
@@ -26,6 +27,14 @@ if not arglist:
 homedir = os.path.dirname(sys.argv[0])
 if not homedir:
     homedir = '.'
+
+def test64bit(file):
+    res = subprocess.check_output(['/usr/bin/file', file])
+    if 'PE32 executable' in res:
+        return False
+    if 'PE32+ executable' in res:
+        return True
+    raise Exception('Cannot determine Windows app type: ' + file)
     
 for dir in arglist:
     if dir.endswith('/'):
@@ -36,6 +45,19 @@ for dir in arglist:
         typ = 'mac'
     elif dir.endswith('_Data'):
         typ = 'win'
+        exefile = dir[:-5]+'.exe'
+        if test64bit(exefile):
+            typ += '-x64'
+        else:
+            typ += '-x86'
+    elif dir.endswith('.exe'):
+        typ = 'win'
+        exefile = dir
+        dir = dir[:-4]+'_Data'
+        if test64bit(exefile):
+            typ += '-x64'
+        else:
+            typ += '-x86'
     else:
         raise Exception('Unrecognized app type: ' + dir)
     
@@ -52,8 +74,8 @@ for dir in arglist:
         destdir = os.path.join(dir, 'Contents', 'Resources', 'Data', 'Managed')
         shutil.copy(srcfile, destdir)
         
-    elif typ == 'win':
-        srcfile = os.path.join(homedir, 'native', 'win-x64', 'libSkiaSharp.dll')
+    elif typ.startswith('win'):
+        srcfile = os.path.join(homedir, 'native', typ, 'libSkiaSharp.dll')
         destdir = os.path.join(dir, 'Mono')
         if not os.path.exists(destdir):
             os.makedirs(destdir)
