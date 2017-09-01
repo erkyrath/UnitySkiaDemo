@@ -70,9 +70,9 @@ for dir in arglist:
             os.makedirs(destdir)
         shutil.copy(srcfile, destdir)
             
-        srcfile = os.path.join(homedir, 'managed', 'mac', 'SkiaSharp.dll')
-        destdir = os.path.join(dir, 'Contents', 'Resources', 'Data', 'Managed')
-        shutil.copy(srcfile, destdir)
+        #srcfile = os.path.join(homedir, 'managed', 'mac', 'SkiaSharp.dll')
+        #destdir = os.path.join(dir, 'Contents', 'Resources', 'Data', 'Managed')
+        #shutil.copy(srcfile, destdir)
         
     elif typ.startswith('win'):
         srcfile = os.path.join(homedir, 'native', typ, 'libSkiaSharp.dll')
@@ -81,7 +81,7 @@ for dir in arglist:
             os.makedirs(destdir)
         shutil.copy(srcfile, destdir)
             
-        srcfile = os.path.join(homedir, 'managed', 'win', 'SkiaSharp.dll')
-        destdir = os.path.join(dir, 'Managed')
-        shutil.copy(srcfile, destdir)
-        
+        #srcfile = os.path.join(homedir, 'managed', 'win', 'SkiaSharp.dll')
+        #destdir = os.path.join(dir, 'Managed')
+        #shutil.copy(srcfile, destdir)
+
