@@ -2,6 +2,7 @@
 
 **A demonstration of embedding a SkiaSharp canvas in a Unity project**
 
+- Version 2 (Sept 4, 2017)
 - Designed by Andrew Plotkin <erkyrath@eblong.com>
 - Includes libraries from [SkiaSharp version 1.59.1][skiadl]
 
